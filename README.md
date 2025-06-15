@@ -1,1 +1,1 @@
-# Capacitive touch sensor data used for classification of movement patterns using artificial neural networks
+# Non-uniform spiking touch sensor for classification of movement patterns using neural networks 
