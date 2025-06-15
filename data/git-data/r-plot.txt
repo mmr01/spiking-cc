@@ -1,0 +1,43 @@
+#2d plot generating
+
+library(prettyGraphs)
+library(Cairo)
+zl = c(1.2,1.7);
+
+dfU <-  read.table("../data/git-data/2023-10-06-U.csv", sep=";")
+dfN <-  read.table("../data/git-data/2023-10-06-N.csv", sep=";")
+dfI <-  read.table("../data/git-data/2023-10-06-F.csv", sep=";")
+library(viridis)
+library(Cairo)
+cU <- "#006496"
+cN <- "#00aeef"
+cI <- "#e6e6e6"
+mx = min(length(dfN[,1]), length(dfU[,1]))
+#dg = 6
+for (dg in 0:9) 
+{
+first = 1
+CairoPNG(paste("Plots/T-",dg,".png", sep = "", collapse = NULL), width = 1024, height=250)
+for (x in 1:mx) {
+    if (dfN[x,1] == dg) {
+        if (first == 1) {
+            plot(as.numeric(dfN[x,])/1000, type='p', pch=20, col=add.alpha(cN,0.03), cex=0.3, ylim=zl, main=dg, ylab="Delay [ms]", xlab="Spike number")
+            first = 0;
+        } else { 
+            lines(as.numeric(dfN[x,]/1000), type='p', pch=20, col=add.alpha(cN,0.03), cex=0.3)
+        }
+    }
+    if (first == 0) {
+        if (dfU[x,1] == dg) {
+            lines(as.numeric(dfU[x,]/1000), type='p', pch=20, col=add.alpha(cU,0.03), cex=0.3)
+        }
+    }
+    if (first == 0) {
+        if (dfI[x,1] == dg) {
+            lines(as.numeric(0.2+dfI[x,]/1000), type='p', pch=20, col=add.alpha(cI,0.03), cex=0.3)
+        }
+    }
+    print(x)
+}
+dev.off()
+}
